@@ -257,26 +257,360 @@ plt.show()
 
 ##  Fundamentos Teóricos
 
-### Por que Seno e Cosseno são Ortogonais?
+## Ortogonalidade de Seno e Cosseno
 
-A ortogonalidade vem das **identidades trigonométricas**:
+Para $T_0 = \frac{2\pi}{\omega_0}$ (período fundamental), vamos demonstrar as propriedades de ortogonalidade, assumindo que $n$ e $m$ são **inteiros** ($n,m \in \mathbb{Z}$).
 
-```
-sin(A)sin(B) = ½[cos(A-B) - cos(A+B)]
-cos(A)cos(B) = ½[cos(A-B) + cos(A+B)]
-sin(A)cos(B) = ½[sin(A+B) + sin(A-B)]
-```
+> **Observação:** Se $n=0$ ou $m=0$, então:
+> 
+> $$\sin(0\cdot\omega_0 t) \equiv 0 \quad\text{ e }\quad \cos(0\cdot\omega_0 t) \equiv 1$$
+> 
+> portanto, os produtos envolvendo $\sin(0\cdot\omega_0 t)$ serão sempre nulos, e os produtos envolvendo $\cos(0\cdot\omega_0 t)$ devem ser tratados separadamente.
 
-Quando integramos sobre um período completo, os termos cosseno e seno se anulam!
+---
 
-### Fórmulas de Euler
+### Produto de Senos com Frequências Diferentes
 
-```
-cos(nω₀t) = (e^(jnω₀t) + e^(-jnω₀t))/2
-sin(nω₀t) = (e^(jnω₀t) - e^(-jnω₀t))/(2j)
-```
+**Para $n \neq m$:**
 
-As propriedades de ortogonalidade de seno/cosseno **derivam** da ortogonalidade das exponenciais complexas.
+$$\int_0^{T_0} \sin(n\omega_0 t)\sin(m\omega_0 t)\,dt$$
+
+Usando a identidade trigonométrica: $\sin A \sin B = \frac{1}{2}[\cos(A-B) - \cos(A+B)]$
+
+$$= \int_0^{T_0} \frac{1}{2}[\cos((n-m)\omega_0 t) - \cos((n+m)\omega_0 t)]\,dt$$
+
+$$= \frac{1}{2}\left[\frac{\sin((n-m)\omega_0 t)}{(n-m)\omega_0} - \frac{\sin((n+m)\omega_0 t)}{(n+m)\omega_0}\right]_0^{T_0}$$
+
+Como $T_0 = \frac{2\pi}{\omega_0}$, temos:
+- $(n-m)\omega_0 T_0 = (n-m) \cdot 2\pi$ (múltiplo inteiro de $2\pi$)
+- $(n+m)\omega_0 T_0 = (n+m) \cdot 2\pi$ (múltiplo inteiro de $2\pi$)
+
+Portanto: $\sin((n-m) \cdot 2\pi) = \sin((n+m) \cdot 2\pi) = 0$
+
+> **Resultado:** $= 0$ quando $n \neq m$
+
+**Para $n = m$:**
+
+$$\int_0^{T_0} \sin^2(n\omega_0 t)\,dt$$
+
+Usando a identidade: $\sin^2(x) = \frac{1-\cos(2x)}{2}$
+
+$$= \int_0^{T_0} \frac{1-\cos(2n\omega_0 t)}{2}\,dt$$
+
+$$= \frac{1}{2}\left[t - \frac{\sin(2n\omega_0 t)}{2n\omega_0}\right]_0^{T_0}$$
+
+$$= \frac{1}{2}\left[T_0 - \frac{\sin(2n\omega_0 T_0)}{2n\omega_0} + 0\right]$$
+
+Como $2n\omega_0 T_0 = 4n\pi$, temos $\sin(4n\pi) = 0$
+
+> **Resultado:** $= \frac{T_0}{2}$ quando $n = m$
+
+---
+
+### Produto de Cossenos
+
+**Para $n \neq m$:**
+
+$$\int_{0}^{T_0}\cos(n\omega_0 t)\cos(m\omega_0 t)\,dt$$
+
+Usando a identidade trigonométrica:
+$$\cos A \cos B = \frac{1}{2}[\cos(A-B) + \cos(A+B)]$$
+
+$$= \int_{0}^{T_0} \frac{1}{2}[\cos((n-m)\omega_0 t) + \cos((n+m)\omega_0 t)]\,dt$$
+
+$$= \frac{1}{2} \int_{0}^{T_0} \cos((n-m)\omega_0 t)\,dt + \frac{1}{2} \int_{0}^{T_0} \cos((n+m)\omega_0 t)\,dt$$
+
+$$= \frac{1}{2}\left[\frac{\sin((n-m)\omega_0 t)}{(n-m)\omega_0}\right]_{0}^{T_0} + \frac{1}{2}\left[\frac{\sin((n+m)\omega_0 t)}{(n+m)\omega_0}\right]_{0}^{T_0}$$
+
+Como $T_0 = \frac{2\pi}{\omega_0}$, temos:
+
+$$(n - m)\omega_0 T_0 = (n - m)\,2\pi \quad \text{(múltiplo inteiro de } 2\pi \text{)}$$
+
+$$(n + m)\omega_0 T_0 = (n + m)\,2\pi \quad \text{(múltiplo inteiro de } 2\pi \text{)}$$
+
+Portanto:
+
+$$\sin((n - m)\omega_0 T_0) = \sin((n + m)\omega_0 T_0) = 0$$
+
+e os termos se anulam.
+
+$$\Rightarrow \int_{0}^{T_0}\cos(n\omega_0 t)\cos(m\omega_0 t)\,dt = 0 \quad \text{quando } n \neq m$$
+
+> **Resultado:** $= 0$ quando $n \neq m$
+
+**Para $n = m$:**
+
+$$\int_{0}^{T_0}\cos^2(n\omega_0 t)\,dt$$
+
+Usando a identidade: $\cos^2 A = \frac{1}{2}[1 + \cos(2A)]$
+
+$$= \frac{1}{2}\int_{0}^{T_0} [1 + \cos(2n\omega_0 t)]\,dt$$
+
+$$= \frac{1}{2}\left[\int_{0}^{T_0}1\,dt + \int_{0}^{T_0}\cos(2n\omega_0 t)\,dt\right]$$
+
+$$= \frac{1}{2}\left[T_0 + \frac{\sin(2n\omega_0 T_0)}{2n\omega_0}\right]$$
+
+Como $2n\omega_0 T_0 = 4n\pi$, e $\sin(4n\pi) = 0$:
+
+$$\Rightarrow \int_{0}^{T_0}\cos^2(n\omega_0 t)\,dt = \frac{T_0}{2}$$
+
+> **Resultado:** $= \frac{T_0}{2}$ quando $n = m$
+
+---
+
+### Produto de Seno e Cosseno
+
+$$\int_0^{T_0} \sin(n\omega_0 t)\cos(m\omega_0 t)\,dt$$
+
+Usando: $\sin A \cos B = \frac{1}{2}[\sin(A+B) + \sin(A-B)]$
+
+$$= \frac{1}{2}\int_0^{T_0} [\sin((n+m)\omega_0 t) + \sin((n-m)\omega_0 t)]\,dt$$
+
+$$= \frac{1}{2}\left[-\frac{\cos((n+m)\omega_0 t)}{(n+m)\omega_0} - \frac{\cos((n-m)\omega_0 t)}{(n-m)\omega_0}\right]_0^{T_0}$$
+
+Avaliando nos limites e usando que $(n \pm m)\omega_0 T_0$ são múltiplos de $2\pi$:
+
+> **Resultado:** $= 0$ para todos os valores de $n$ e $m$
+
+---
+
+## Exemplos Ortogonais
+
+### Exemplo 1: Produto de Cossenos
+
+Considere: $x(t) = \cos(2\pi t)\cos(6\pi t)$
+
+**Cálculo no intervalo $[0,1]$:**
+
+O cálculo é análogo ao dos senos. Consideremos o produto de dois cossenos com frequências diferentes:
+
+$$\int_0^1 \cos(2\pi t) \cdot \cos(6\pi t) \, dt$$
+
+Utilizando a identidade trigonométrica para produto de cossenos:
+
+$$\cos A \cdot \cos B = \frac{1}{2}[\cos(A + B) + \cos(A - B)]$$
+
+Aplicando esta identidade com $A = 2\pi t$ e $B = 6\pi t$:
+
+$$\cos(2\pi t) \cdot \cos(6\pi t) = \frac{1}{2}[\cos(2\pi t + 6\pi t) + \cos(2\pi t - 6\pi t)]$$
+
+$$= \frac{1}{2}[\cos(8\pi t) + \cos(-4\pi t)]$$
+
+$$= \frac{1}{2}[\cos(8\pi t) + \cos(4\pi t)]$$
+
+Onde utilizamos a propriedade $\cos(-x) = \cos(x)$.
+
+Substituindo na integral:
+
+$$\int_0^1 \cos(2\pi t) \cdot \cos(6\pi t) \, dt = \int_0^1 \frac{1}{2}[\cos(8\pi t) + \cos(4\pi t)] \, dt$$
+
+$$= \frac{1}{2} \int_0^1 \cos(8\pi t) \, dt + \frac{1}{2} \int_0^1 \cos(4\pi t) \, dt$$
+
+Calculando cada integral separadamente:
+
+$$\int_0^1 \cos(8\pi t) \, dt = \left[ \frac{\sin(8\pi t)}{8\pi} \right]_0^1$$
+
+$$= \frac{\sin(8\pi) - \sin(0)}{8\pi}$$
+
+$$= \frac{0 - 0}{8\pi} = 0$$
+
+$$\int_0^1 \cos(4\pi t) \, dt = \left[ \frac{\sin(4\pi t)}{4\pi} \right]_0^1$$
+
+$$= \frac{\sin(4\pi) - \sin(0)}{4\pi}$$
+
+$$= \frac{0 - 0}{4\pi} = 0$$
+
+Portanto:
+
+$$\int_0^1 \cos(2\pi t) \cdot \cos(6\pi t) \, dt = \frac{1}{2} \cdot 0 + \frac{1}{2} \cdot 0 = 0$$
+
+> **Resultado:** $= 0$
+
+**Conclusão:** As funções $\cos(2\pi t)$ e $\cos(6\pi t)$ são ortogonais no intervalo $[0,1]$, uma vez que sua integral é zero.
+
+<img width="1361" height="837" alt="Figura4" src="https://github.com/user-attachments/assets/29165366-5fcb-4335-811b-b64037060608" />
+
+**Generalização:** Para quaisquer inteiros $n \neq m$:
+$$\int_0^1 \cos(n\pi t) \cdot \cos(m\pi t) \, dt = 0$$
+
+---
+
+### Exemplo 2: Produto de Senos
+
+Considere: $x(t) = \sin(2\pi t)\sin(4\pi t)$
+
+**Cálculo no intervalo $[0,1]$:**
+
+Consideremos o produto de dois senos com frequências diferentes:
+
+$$\int_0^1 \sin(2\pi t) \cdot \sin(4\pi t) \, dt$$
+
+Utilizando a identidade trigonométrica para produto de senos:
+
+$$\sin A \cdot \sin B = \frac{1}{2}[\cos(A - B) - \cos(A + B)]$$
+
+Aplicando esta identidade com $A = 2\pi t$ e $B = 4\pi t$:
+
+$$\sin(2\pi t) \cdot \sin(4\pi t) = \frac{1}{2}[\cos(2\pi t - 4\pi t) - \cos(2\pi t + 4\pi t)]$$
+
+$$= \frac{1}{2}[\cos(-2\pi t) - \cos(6\pi t)]$$
+
+$$= \frac{1}{2}[\cos(2\pi t) - \cos(6\pi t)]$$
+
+Onde utilizamos a propriedade $\cos(-x) = \cos(x)$.
+
+Substituindo na integral:
+
+$$\int_0^1 \sin(2\pi t) \cdot \sin(4\pi t) \, dt = \int_0^1 \frac{1}{2}[\cos(2\pi t) - \cos(6\pi t)] \, dt$$
+
+$$= \frac{1}{2} \int_0^1 \cos(2\pi t) \, dt - \frac{1}{2} \int_0^1 \cos(6\pi t) \, dt$$
+
+Calculando cada integral separadamente:
+
+$$\int_0^1 \cos(2\pi t) \, dt = \left[ \frac{\sin(2\pi t)}{2\pi} \right]_0^1$$
+
+$$= \frac{\sin(2\pi) - \sin(0)}{2\pi}$$
+
+$$= \frac{0 - 0}{2\pi} = 0$$
+
+$$\int_0^1 \cos(6\pi t) \, dt = \left[ \frac{\sin(6\pi t)}{6\pi} \right]_0^1$$
+
+$$= \frac{\sin(6\pi) - \sin(0)}{6\pi}$$
+
+$$= \frac{0 - 0}{6\pi} = 0$$
+
+Portanto:
+
+$$\int_0^1 \sin(2\pi t) \cdot \sin(4\pi t) \, dt = \frac{1}{2} \cdot 0 - \frac{1}{2} \cdot 0 = 0$$
+
+**Conclusão:** As funções $\sin(2\pi t)$ e $\sin(4\pi t)$ são ortogonais no intervalo $[0,1]$, uma vez que sua integral é zero.
+
+> **Resultado:** $= 0$
+
+<img width="1356" height="822" alt="Figura5" src="https://github.com/user-attachments/assets/51b08fe9-409c-4dd2-9ac9-241dcc30c05a" />
+
+**Generalização:** Para quaisquer inteiros $n \neq m$:
+$$\int_0^1 \sin(n\pi t) \cdot \sin(m\pi t) \, dt = 0$$
+
+---
+
+### Exemplo 3: Produto de Cosseno e Seno
+
+Considere: $x(t) = \cos(4\pi t)\sin(2\pi t)$
+
+**Cálculo no intervalo $[0,1]$:**
+
+Usando: $\cos A \sin B = \frac{1}{2}[\sin(A+B) - \sin(A-B)]$
+
+$$x(t) = \cos(4\pi t)\sin(2\pi t) = \frac{1}{2}[\sin(6\pi t) - \sin(2\pi t)]$$
+
+$$\int_0^1 x(t)\,dt = \int_0^1 \frac{1}{2}[\sin(6\pi t) - \sin(2\pi t)]\,dt$$
+
+$$= \frac{1}{2}\left[-\frac{\cos(6\pi t)}{6\pi} + \frac{\cos(2\pi t)}{2\pi}\right]_0^1$$
+
+$$= \frac{1}{2}\left[\left(-\frac{\cos(6\pi)}{6\pi} + \frac{\cos(2\pi)}{2\pi}\right) - \left(-\frac{\cos(0)}{6\pi} + \frac{\cos(0)}{2\pi}\right)\right]$$
+
+$$= \frac{1}{2}\left[\left(-\frac{1}{6\pi} + \frac{1}{2\pi}\right) - \left(-\frac{1}{6\pi} + \frac{1}{2\pi}\right)\right]$$
+
+> **Resultado:** $= 0$
+
+<img width="1087" height="554" alt="Figura11" src="https://github.com/user-attachments/assets/29643b3a-ce91-4b1c-8855-68116d62c35d" />
+
+Isso confirma que $\cos(4\pi t)$ e $\sin(2\pi t)$ são ortogonais no intervalo $[0,1]$.
+
+---
+
+## Exemplos Não Ortogonais
+
+### Caso 1: Frequências Iguais (Função consigo mesma)
+
+$$\int_0^1 \sin^2(2\pi t)\,dt$$
+
+Usando $\sin^2(x) = \frac{1-\cos(2x)}{2}$:
+
+$$= \int_0^1 \frac{1-\cos(4\pi t)}{2}\,dt$$
+
+$$= \frac{1}{2}\left[t - \frac{\sin(4\pi t)}{4\pi}\right]_0^1$$
+
+$$= \frac{1}{2}\left[\left(1 - \frac{\sin(4\pi)}{4\pi}\right) - \left(0 - \frac{\sin(0)}{4\pi}\right)\right]$$
+
+$$= \frac{1}{2}[1 - 0 - 0 + 0] = \frac{1}{2}$$
+
+> **Resultado:** $\neq 0$, portanto não são ortogonais.
+
+<img width="1058" height="828" alt="Figura2" src="https://github.com/user-attachments/assets/0305cb9f-18c3-40e0-9915-4ec88376773d" />
+
+---
+
+### Caso 2: Intervalo Inadequado
+
+Para $x(t) = \cos(4\pi t)\sin(2\pi t)$ no intervalo $[0, 0.5]$:
+
+$$\int_0^{0.5} \cos(4\pi t)\sin(2\pi t)\,dt = \frac{1}{2}\int_0^{0.5} [\sin(6\pi t) - \sin(2\pi t)]\,dt$$
+
+$$= \frac{1}{2}\left[-\frac{\cos(6\pi t)}{6\pi} + \frac{\cos(2\pi t)}{2\pi}\right]_0^{0.5}$$
+
+$$= \frac{1}{2}\left[\left(-\frac{\cos(3\pi)}{6\pi} + \frac{\cos(\pi)}{2\pi}\right) - \left(-\frac{1}{6\pi} + \frac{1}{2\pi}\right)\right]$$
+
+$$= \frac{1}{2}\left[\left(-\frac{(-1)}{6\pi} + \frac{(-1)}{2\pi}\right) - \left(-\frac{1}{6\pi} + \frac{1}{2\pi}\right)\right]$$
+
+$$= \frac{1}{2}\left[\frac{1}{6\pi} - \frac{1}{2\pi} + \frac{1}{6\pi} - \frac{1}{2\pi}\right]$$
+
+$$= \frac{1}{2} \cdot \frac{2}{6\pi} - \frac{1}{2} \cdot \frac{2}{2\pi} = \frac{1}{6\pi} - \frac{1}{2\pi}$$
+
+$$= \frac{1-3}{6\pi} = -\frac{2}{6\pi} = -\frac{1}{3\pi}$$
+
+> **Resultado:** $\neq 0$, confirmando que no intervalo inadequado a ortogonalidade não se mantém.
+
+<img width="1067" height="545" alt="Figura33" src="https://github.com/user-attachments/assets/4f9347bd-c9c9-4986-91ab-a0d870ab1392" />
+
+---
+
+## Ortogonalidade das Exponenciais Complexas
+
+Para exponenciais complexas $e^{jn\omega_0 t}$ e $e^{jm\omega_0 t}$:
+
+$$\int_0^{T_0} e^{jn\omega_0 t} \overline{e^{jm\omega_0 t}}\,dt = \int_0^{T_0} e^{jn\omega_0 t} e^{-jm\omega_0 t}\,dt$$
+
+$$= \int_0^{T_0} e^{j(n-m)\omega_0 t}\,dt$$
+
+**Para $n \neq m$:**
+
+$$= \frac{e^{j(n-m)\omega_0 t}}{j(n-m)\omega_0}\Big|_0^{T_0} = \frac{e^{j(n-m)\omega_0 T_0} - 1}{j(n-m)\omega_0}$$
+
+Como $(n-m)\omega_0 T_0 = (n-m) \cdot 2\pi$, temos $e^{j(n-m) \cdot 2\pi} = 1$
+
+> **Resultado:** $= 0$ quando $n \neq m$
+
+**Para $n = m$:**
+
+$$\int_0^{T_0} e^0\,dt = \int_0^{T_0} 1\,dt = T_0$$
+
+> **Resultado:** $= T_0$ quando $n = m$
+
+---
+
+## Relação entre Exponenciais e Funções Trigonométricas
+
+As fórmulas de Euler:
+
+$$\cos(n\omega_0 t) = \frac{e^{jn\omega_0 t} + e^{-jn\omega_0 t}}{2}$$
+
+$$\sin(n\omega_0 t) = \frac{e^{jn\omega_0 t} - e^{-jn\omega_0 t}}{2j}$$
+
+Mostram que as propriedades de ortogonalidade dos senos e cossenos derivam diretamente da ortogonalidade das exponenciais complexas, uma vez que qualquer combinação linear de funções ortogonais mantém as propriedades de ortogonalidade quando apropriadamente normalizada.
+
+---
+
+## Resumo das Propriedades de Ortogonalidade
+
+$$\int_0^{T_0} \sin(n\omega_0 t)\sin(m\omega_0 t)\,dt = \begin{cases} 0, & n\neq m\\ T_0/2, & n=m \end{cases}$$
+
+$$\int_0^{T_0} \cos(n\omega_0 t)\cos(m\omega_0 t)\,dt = \begin{cases} 0, & n\neq m\\ T_0/2, & n=m \end{cases}$$
+
+$$\int_0^{T_0} \sin(n\omega_0 t)\cos(m\omega_0 t)\,dt = 0$$
+
+$$\int_0^{T_0} e^{j n \omega_0 t} e^{-j m \omega_0 t}\,dt = \begin{cases} T_0, & n=m\\ 0, & n\neq m \end{cases}$$
 
 ---
 
